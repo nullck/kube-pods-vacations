@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-hello-world
+  annotations:
+    kube-pods-vacations/reduced-replicas: "0"
+    kube-pods-vacations/desired-replicas: "2"
+    kube-pods-vacations/reduced-cron-expr: "59 23 * * 5"
+    kube-pods-vacations/desired-cron-expr: "0 9 * * 1"
+
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-hello
+  template:
+    metadata:
+      labels:
+        app: busybox-hello
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["/bin/sh", "-c", "while true; do echo 'Hello, World!'; sleep 5; done"]
